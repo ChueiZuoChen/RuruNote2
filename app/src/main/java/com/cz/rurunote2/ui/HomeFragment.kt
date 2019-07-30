@@ -21,8 +21,8 @@ import kotlinx.coroutines.launch
 
 class HomeFragment : BaseFragment() {
 
-    lateinit var notes:List<Note>
-    lateinit var adapter:NoteAdapter
+    lateinit var notes: List<Note>
+    lateinit var adapter: NoteAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,12 +37,15 @@ class HomeFragment : BaseFragment() {
 
         recycler.setHasFixedSize(true)
 //        recycler.layoutManager = LinearLayoutManager(context)
-        recycler.layoutManager = StaggeredGridLayoutManager(3,StaggeredGridLayoutManager.VERTICAL)
+        recycler.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+
+
         launch {
             context?.let {
                 notes = NoteDatabase(it).getNoteDao().getAllNote()
-                adapter = NoteAdapter(notes)
+                adapter = NoteAdapter(notes, { note: Note -> itemClicked(note) })
                 recycler.adapter = adapter
+
             }
         }
 
@@ -62,6 +65,12 @@ class HomeFragment : BaseFragment() {
 
                 }
             }
+        }
+    }
+
+    fun itemClicked(note: Note) {
+        context?.let {
+            it.toast("${note.title}")
         }
     }
 }

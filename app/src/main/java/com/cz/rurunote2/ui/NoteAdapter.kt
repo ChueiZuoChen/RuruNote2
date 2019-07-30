@@ -3,16 +3,17 @@ package com.cz.rurunote2.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.cz.rurunote2.R
 import com.cz.rurunote2.db.Note
 import kotlinx.android.synthetic.main.note_row_layout.view.*
 
-class NoteAdapter(val notes:List<Note>) :RecyclerView.Adapter<NoteViewHolder>(){
+class NoteAdapter(val notes: List<Note>, val clickListener: (Note) -> Unit) : RecyclerView.Adapter<NoteViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        return NoteViewHolder(LayoutInflater.from(parent.context)
-            .inflate(R.layout.note_row_layout,parent,false))
+        return NoteViewHolder(
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.note_row_layout, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {
@@ -21,19 +22,17 @@ class NoteAdapter(val notes:List<Note>) :RecyclerView.Adapter<NoteViewHolder>(){
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = notes.get(position)
-        holder.bind(note)
-        holder.view.setOnClickListener {
-
-        }
+        (holder as NoteViewHolder).bind(note, clickListener)
     }
 }
 
-class NoteViewHolder(val view:View):RecyclerView.ViewHolder(view){
-    var titleNote = view.title_text
-    var noteBody = view.note_text
+class NoteViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-    fun bind(note:Note){
-        titleNote.text = note.title
-        noteBody.text = note.note
+    fun bind(note: Note, clickListener: (Note) -> Unit) {
+        view.title_text.text = note.title
+        view.note_text.text = note.note
+        view.setOnClickListener { clickListener(note) }
     }
+
+
 }
