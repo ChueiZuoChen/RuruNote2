@@ -1,11 +1,15 @@
 package com.cz.rurunote2.ui
 
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -36,19 +40,18 @@ class HomeFragment : BaseFragment() {
         super.onActivityCreated(savedInstanceState)
 
         recycler.setHasFixedSize(true)
-//        recycler.layoutManager = LinearLayoutManager(context)
         recycler.layoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-
 
         launch {
             context?.let {
                 notes = NoteDatabase(it).getNoteDao().getAllNote()
+                var notess = arrayListOf<Note>()
+                notess.addAll(notes)
                 adapter = NoteAdapter(notes, { note: Note -> itemClicked(note) })
                 recycler.adapter = adapter
 
             }
         }
-
 
         button_add.setOnClickListener {
             findNavController(it).navigate(HomeFragmentDirections.actionHomeFragmentToAddNoteFragment())
@@ -58,10 +61,9 @@ class HomeFragment : BaseFragment() {
             launch {
                 context?.let {
                     NoteDatabase(it).getNoteDao().removeAllNotes()
-
                     //Remove all list
                     recycler.removeAllViewsInLayout()
-                    it.toast("Removed...")
+                    it.toast("Removed all...")
 
                 }
             }
@@ -69,8 +71,16 @@ class HomeFragment : BaseFragment() {
     }
 
     fun itemClicked(note: Note) {
-        context?.let {
-            it.toast("${note.title}")
+
+        launch {
+            context?.let {
+                NoteDatabase(it).getNoteDao().removeNote(note)
+                Log.d(MainActivity::class.java.simpleName,"${note.id}")
+                it.toast("Remove ${note.title}")
+            }
         }
+
     }
+
+
 }

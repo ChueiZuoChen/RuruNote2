@@ -1,5 +1,6 @@
 package com.cz.rurunote2.db
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -19,4 +20,7 @@ interface NoteDao {
 
     @Query("Delete from note")
     suspend fun removeAllNotes()
+
+    @Delete
+    suspend fun removeNote(note: Note)
 }

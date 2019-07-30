@@ -3,6 +3,7 @@ package com.cz.rurunote2.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.cz.rurunote2.R
 import com.cz.rurunote2.db.Note
