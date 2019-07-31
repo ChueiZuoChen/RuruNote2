@@ -54,14 +54,7 @@ class AddNoteFragment : BaseFragment() {
                     }
                 }
             }
-//            noteTitle.ifEmpty {
-//                edit_title.error = "title required"
-//                edit_title.requestFocus()
-//            }
-//            noteBody.ifEmpty {
-//                edit_note.error = "note required"
-//                edit_note.requestFocus()
-//            }
+
 
 
 

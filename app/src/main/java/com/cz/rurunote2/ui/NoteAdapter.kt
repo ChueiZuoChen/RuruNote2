@@ -8,7 +8,7 @@ import com.cz.rurunote2.R
 import com.cz.rurunote2.db.Note
 import kotlinx.android.synthetic.main.note_row_layout.view.*
 
-class NoteAdapter(val notes: ArrayList<Note>, val clickListener: (Note) -> Unit) : RecyclerView.Adapter<NoteViewHolder>() {
+class NoteAdapter(val notes: List<Note>) : RecyclerView.Adapter<NoteViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         return NoteViewHolder(
             LayoutInflater.from(parent.context)
@@ -22,16 +22,19 @@ class NoteAdapter(val notes: ArrayList<Note>, val clickListener: (Note) -> Unit)
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val note = notes.get(position)
-        (holder as NoteViewHolder).bind(note, clickListener)
+        holder.bind(note)
+        holder.view.setOnClickListener {
+
+        }
     }
 }
 
 class NoteViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-    fun bind(note: Note, clickListener: (Note) -> Unit) {
+    fun bind(note: Note) {
         view.title_text.text = note.title
         view.note_text.text = note.note
-        view.setOnClickListener { clickListener(note) }
+
     }
 
 

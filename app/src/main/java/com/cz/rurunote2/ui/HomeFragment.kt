@@ -21,7 +21,6 @@ class HomeFragment : BaseFragment() {
 
     lateinit var notes: List<Note>
     lateinit var adapter: NoteAdapter
-    var notess = arrayListOf<Note>()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,9 +38,7 @@ class HomeFragment : BaseFragment() {
         launch {
             context?.let {
                 notes = NoteDatabase(it).getNoteDao().getAllNote()
-
-                notess.addAll(notes)
-                adapter = NoteAdapter(notess, { note: Note -> itemClicked(note) })
+                adapter = NoteAdapter(notes)
                 recycler.adapter = adapter
 
             }
@@ -55,8 +52,9 @@ class HomeFragment : BaseFragment() {
             launch {
                 context?.let {
                     NoteDatabase(it).getNoteDao().removeAllNotes()
-                    notess.removeAll(notes)
-                    adapter.notifyDataSetChanged()
+                    notes = listOf()
+                    adapter = NoteAdapter(notes)
+                    recycler.adapter = adapter
                     it.toast("Removed all...")
 
                 }
@@ -64,18 +62,6 @@ class HomeFragment : BaseFragment() {
         }
     }
 
-    fun itemClicked(note: Note) {
 
-        launch {
-            context?.let {
-                NoteDatabase(it).getNoteDao().removeNote(note)
-                Log.d(MainActivity::class.java.simpleName,"${note.id}")
-                notess.remove(note)
-                adapter.notifyDataSetChanged()
-                it.toast("Remove ${note.title}")
-            }
-        }
-
-    }
 
 }

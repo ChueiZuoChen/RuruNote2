@@ -13,5 +13,6 @@
               android:label="Add Note" tools:layout="@layout/fragment_add_note">
         <action android:id="@+id/action_addNoteFragment_to_homeFragment" app:destination="@id/homeFragment"
                 app:popUpToInclusive="true" app:popUpTo="@+id/homeFragment"/>
+
     </fragment>
 </navigation>
