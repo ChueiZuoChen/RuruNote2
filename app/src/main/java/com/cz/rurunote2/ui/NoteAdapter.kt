@@ -3,6 +3,9 @@ package com.cz.rurunote2.ui
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.findNavController
+
+
 import androidx.recyclerview.widget.RecyclerView
 import com.cz.rurunote2.R
 import com.cz.rurunote2.db.Note
@@ -24,7 +27,9 @@ class NoteAdapter(val notes: List<Note>) : RecyclerView.Adapter<NoteViewHolder>(
         val note = notes.get(position)
         holder.bind(note)
         holder.view.setOnClickListener {
-
+            val action = HomeFragmentDirections.actionHomeFragmentToAddNoteFragment()
+            action.note = note
+            it.findNavController().navigate(action)
         }
     }
 }

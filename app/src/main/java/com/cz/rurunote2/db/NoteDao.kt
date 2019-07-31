@@ -1,9 +1,6 @@
 package com.cz.rurunote2.db
 
-import androidx.room.Dao
-import androidx.room.Delete
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 
 @Dao
 interface NoteDao {
@@ -22,4 +19,7 @@ interface NoteDao {
 
     @Delete
     suspend fun removeNote(note: Note)
+
+    @Update
+    suspend fun updateNote(note: Note)
 }
